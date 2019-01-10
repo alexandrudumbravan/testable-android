@@ -19,15 +19,13 @@ public class TASharedPreferences {
     public static final int MODE_WORLD_WRITEABLE = 3;
     public static final int MODE_MULTI_PROCESS = 4;
 
+    @NonNull
     SharedPreferences sharedPreferences;
-    @Nullable
+    @NonNull
     Gson gson;
 
-    public TASharedPreferences(Context context, String name, @SharedPrefsMode int mode) {
-        this(context, name, mode, null);
-    }
 
-    public TASharedPreferences(Context context, String name, @SharedPrefsMode int mode, @Nullable Gson gson) {
+    public TASharedPreferences(Context context, String name, @SharedPrefsMode int mode, @NonNull Gson gson) {
         sharedPreferences = context.getSharedPreferences(name, extractMode(mode));
         this.gson = gson;
     }

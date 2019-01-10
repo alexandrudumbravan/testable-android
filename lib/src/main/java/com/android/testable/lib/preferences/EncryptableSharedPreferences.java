@@ -1,30 +1,23 @@
 package com.android.testable.lib.preferences;
 
 import android.content.Context;
-import android.os.Build;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import com.android.testable.lib.crypto.CertProperties;
 import com.android.testable.lib.crypto.InvalidEncryptionException;
 import com.android.testable.lib.crypto.TACrypto;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class CryptoSharedPreferences extends TASharedPreferences {
+
+public class EncryptableSharedPreferences extends TASharedPreferences {
 
     private TACrypto taCrypto;
 
-    public CryptoSharedPreferences(Context context, String name, @SharedPrefsMode int mode, CertProperties certProperties) {
-        super(context, name, mode);
-        taCrypto = TACrypto.createCrypto(certProperties, context);
-    }
-
-    public CryptoSharedPreferences(Context context, String name, @SharedPrefsMode int mode, @Nullable Gson gson, CertProperties certProperties) {
+    public EncryptableSharedPreferences(Context context, String name, @SharedPrefsMode int mode, @NonNull Gson gson, TACrypto taCrypto) {
         super(context, name, mode, gson);
-        taCrypto = TACrypto.createCrypto(certProperties, context);
+        this.taCrypto = taCrypto;
     }
-
 
     public void putEncryptedString(String key, String value) throws InvalidEncryptionException {
         putString(key, taCrypto.encryptAsBase64(value));
@@ -42,5 +35,9 @@ public class CryptoSharedPreferences extends TASharedPreferences {
     public <T> T getEncryptedObject(String key) throws InvalidEncryptionException {
         return gson.fromJson(taCrypto.decryptFromBase64(getString(key, "")), new TypeToken<T>() {
         }.getType());
+    }
+
+    public static EncryptableSharedPreferences createDefaultSharedPrefs(Context context, String name, CertProperties certProperties) {
+        return new EncryptableSharedPreferences(context, name, MODE_PRIVATE, new Gson(), TACrypto.createCrypto(certProperties, context));
     }
 }
