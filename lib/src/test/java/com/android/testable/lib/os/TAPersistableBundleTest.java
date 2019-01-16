@@ -1,7 +1,8 @@
-package com.android.testable.lib;
+package com.android.testable.lib.os;
 
 import android.os.Parcel;
 import android.os.PersistableBundle;
+import com.android.testable.lib.os.TAPersistableBundle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

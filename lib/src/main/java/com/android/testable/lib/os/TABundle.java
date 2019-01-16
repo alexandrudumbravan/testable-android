@@ -1,4 +1,4 @@
-package com.android.testable.lib;
+package com.android.testable.lib.os;
 
 import android.os.Build;
 import android.os.Bundle;

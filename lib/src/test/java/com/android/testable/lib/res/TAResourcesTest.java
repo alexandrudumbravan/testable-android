@@ -1,4 +1,4 @@
-package com.android.testable.lib;
+package com.android.testable.lib.res;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -16,8 +16,8 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import com.android.testable.lib.res.TAResources;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ContextCompat.class, ResourcesCompat.class})
+@PrepareForTest({ResourcesCompat.class})
 public class TAResourcesTest {
 
     private static final int RESOURCE_ID = 100;
@@ -108,9 +108,10 @@ public class TAResourcesTest {
     @Test
     public void getColorCompat() {
         int color = Color.RED;
-        PowerMockito.mockStatic(ContextCompat.class);
-        when(ContextCompat.getColor(context, RESOURCE_ID)).thenReturn(color);
-        assertEquals(color, subject.getColorCompat(RESOURCE_ID));
+        Resources.Theme theme = mock(Resources.Theme.class);
+        PowerMockito.mockStatic(ResourcesCompat.class);
+        when(ResourcesCompat.getColor(resources, RESOURCE_ID, theme)).thenReturn(color);
+        assertEquals(color, subject.getColorCompat(RESOURCE_ID, theme));
     }
 
     @Test
@@ -130,10 +131,11 @@ public class TAResourcesTest {
 
     @Test
     public void getColorStateListCompat() {
+        Resources.Theme theme = mock(Resources.Theme.class);
         ColorStateList colorStateList = mock(ColorStateList.class);
-        PowerMockito.mockStatic(ContextCompat.class);
-        when(ContextCompat.getColorStateList(context, RESOURCE_ID)).thenReturn(colorStateList);
-        assertEquals(colorStateList, subject.getColorStateListCompat(RESOURCE_ID));
+        PowerMockito.mockStatic(ResourcesCompat.class);
+        when(ResourcesCompat.getColorStateList(resources, RESOURCE_ID, theme)).thenReturn(colorStateList);
+        assertEquals(colorStateList, subject.getColorStateListCompat(RESOURCE_ID, theme));
     }
 
     @Test
@@ -188,10 +190,11 @@ public class TAResourcesTest {
 
     @Test
     public void getDrawableCompat() {
+        Resources.Theme theme = mock(Resources.Theme.class);
         Drawable drawable = mock(Drawable.class);
-        PowerMockito.mockStatic(ContextCompat.class);
-        when(ContextCompat.getDrawable(context, RESOURCE_ID)).thenReturn(drawable);
-        assertEquals(drawable, subject.getDrawableCompat(RESOURCE_ID));
+        PowerMockito.mockStatic(ResourcesCompat.class);
+        when(ResourcesCompat.getDrawable(resources, RESOURCE_ID, theme)).thenReturn(drawable);
+        assertEquals(drawable, subject.getDrawableCompat(RESOURCE_ID, theme));
     }
 
     @Test

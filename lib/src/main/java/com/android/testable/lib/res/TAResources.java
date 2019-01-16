@@ -1,4 +1,4 @@
-package com.android.testable.lib;
+package com.android.testable.lib.res;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -38,7 +38,6 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleableRes;
 import androidx.annotation.XmlRes;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -126,14 +125,15 @@ public class TAResources {
     }
 
     /**
-     * Invokes {@link ContextCompat#getColor(Context, int)}
+     * Invokes {@link ResourcesCompat#getColor(Resources, int, Resources.Theme)}
      *
      * @param resourceId the resource identifier pointing to a color
+     * @param theme      the theme used to style the color attribute
      * @return the desired color
      */
     @ColorInt
-    public int getColorCompat(@ColorRes int resourceId) {
-        return ContextCompat.getColor(context, resourceId);
+    public int getColorCompat(@ColorRes int resourceId, Resources.Theme theme) {
+        return ResourcesCompat.getColor(resources, resourceId, theme);
     }
 
     /**
@@ -152,6 +152,7 @@ public class TAResources {
      * Invokes {@link Resources#getColorStateList(int, Resources.Theme)}
      *
      * @param resourceId the resource identifier pointing to a color
+     * @param theme      the theme used to style the color attribute
      * @return the color state list
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -161,14 +162,15 @@ public class TAResources {
     }
 
     /**
-     * Invokes {@link ContextCompat#getColorStateList(Context, int)}
+     * Invokes {@link ResourcesCompat#getColorStateList(Resources, int, Resources.Theme)}
      *
      * @param resourceId the resource identifier pointing to a color
+     * @param theme      the theme used to style the color attribute
      * @return the color state list
      */
     @Nullable
-    public ColorStateList getColorStateListCompat(@ColorRes int resourceId) {
-        return ContextCompat.getColorStateList(context, resourceId);
+    public ColorStateList getColorStateListCompat(@ColorRes int resourceId, Resources.Theme theme) {
+        return ResourcesCompat.getColorStateList(resources, resourceId, theme);
     }
 
     /**
@@ -249,14 +251,14 @@ public class TAResources {
     }
 
     /**
-     * Invokes {@link ContextCompat#getDrawable(Context, int)}
+     * Invokes {@link ResourcesCompat#getDrawable(Resources, int, Resources.Theme)}
      *
      * @param resourceId the resource id of the drawable
      * @return the drawable resource
      */
     @Nullable
-    public Drawable getDrawableCompat(@DrawableRes int resourceId) {
-        return ContextCompat.getDrawable(context, resourceId);
+    public Drawable getDrawableCompat(@DrawableRes int resourceId, Resources.Theme theme) {
+        return ResourcesCompat.getDrawable(resources, resourceId, theme);
     }
 
     /**

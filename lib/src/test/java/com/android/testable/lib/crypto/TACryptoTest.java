@@ -3,7 +3,7 @@ package com.android.testable.lib.crypto;
 import android.content.Context;
 import android.os.Build;
 import androidx.annotation.NonNull;
-import com.android.testable.lib.util.BuildAccessor;
+import com.android.testable.lib.ComponentGenerator;
 import com.android.testable.lib.util.TABase64;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({BuildAccessor.class})
+@PrepareForTest({ComponentGenerator.class})
 public class TACryptoTest {
 
     private TACrypto subject;
@@ -79,16 +79,18 @@ public class TACryptoTest {
 
     @Test
     public void createCrypto() {
-        PowerMockito.mockStatic(BuildAccessor.class);
-        when(BuildAccessor.getBuild()).thenReturn(Build.VERSION_CODES.M);
+        ComponentGenerator componentGenerator = mock(ComponentGenerator.class);
+        PowerMockito.mockStatic(ComponentGenerator.class);
+        when(ComponentGenerator.create()).thenReturn(componentGenerator);
+        when(componentGenerator.getBuild()).thenReturn(Build.VERSION_CODES.M);
         assertTrue(MarshmallowTACrypto.class.isInstance(TACrypto.createCrypto(certProperties, mock(Context.class))));
-        when(BuildAccessor.getBuild()).thenReturn(Build.VERSION_CODES.LOLLIPOP_MR1);
+        when(componentGenerator.getBuild()).thenReturn(Build.VERSION_CODES.LOLLIPOP_MR1);
         assertTrue(JellyBeanTACrypto.class.isInstance(TACrypto.createCrypto(certProperties, mock(Context.class))));
-        when(BuildAccessor.getBuild()).thenReturn(Build.VERSION_CODES.KITKAT);
+        when(componentGenerator.getBuild()).thenReturn(Build.VERSION_CODES.KITKAT);
         assertTrue(JellyBeanTACrypto.class.isInstance(TACrypto.createCrypto(certProperties, mock(Context.class))));
-        when(BuildAccessor.getBuild()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2);
+        when(componentGenerator.getBuild()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2);
         assertTrue(JellyBeanTACrypto.class.isInstance(TACrypto.createCrypto(certProperties, mock(Context.class))));
-        when(BuildAccessor.getBuild()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR1);
+        when(componentGenerator.getBuild()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR1);
         assertTrue(DefaultTACrypto.class.isInstance(TACrypto.createCrypto(certProperties, mock(Context.class))));
 
     }

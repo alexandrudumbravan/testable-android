@@ -27,7 +27,7 @@ class TestActivity : AppCompatActivity() {
             )
         )
        // prefs.putEncryptedString("key", "Great success")
-        text = prefs.getEncryptedString("key", "default").orEmpty()
+        text = prefs.getEncryptedString("key").orEmpty()
 
         activity_test_text_view.text = text
     }
