@@ -1,6 +1,7 @@
 package com.android.testable.lib.preferences;
 
 import android.content.SharedPreferences;
+import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,5 +90,13 @@ public class TASharedPreferencesEditorTest {
     public void remove() {
         subject.remove(KEY);
         verify(editor).remove(KEY);
+    }
+
+    @Test
+    public void putObject() {
+        subject = new TASharedPreferencesEditor(editor, new Gson());
+        TestGsonObject testGsonObject = new TestGsonObject("name1", "test1");
+        subject.putObject(KEY, testGsonObject);
+        verify(editor).putString(KEY, "{\"name\":\"name1\",\"test\":\"test1\"}");
     }
 }

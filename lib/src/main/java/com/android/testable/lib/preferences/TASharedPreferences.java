@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.Map;
 import java.util.Set;
@@ -127,17 +126,15 @@ public class TASharedPreferences {
      * {@link com.google.gson.annotations.SerializedName} when saving objects as JSON when combined with Proguard or
      * other obfuscation tools
      *
-     * @param key the key of the preference to retrieve
+     * @param key       the key of the preference to retrieve
+     * @param typeClass the class of the object you wish to extract
      * @return the object associated with the key or null if it cannot be retrieved
      */
     @Nullable
-    public <T> T getObject(@NonNull String key) {
-        if (gson != null) {
-            String json = getString(key, null);
-            if (json != null) {
-                return gson.fromJson(json, new TypeToken<T>() {
-                }.getType());
-            }
+    public <T> T getObject(@NonNull String key, Class<T> typeClass) {
+        String json = getString(key, null);
+        if (json != null) {
+            return gson.fromJson(json, typeClass);
         }
         return null;
     }

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import com.android.testable.lib.util.TABase64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -29,15 +30,16 @@ public class JellyBeanTACrypto extends TACrypto {
     @NonNull
     private Context context;
 
-    JellyBeanTACrypto(@NonNull CertProperties certProperties, @NonNull CryptoPrefs cryptoPrefs, @NonNull Context context) {
-        super(certProperties, cryptoPrefs);
+    protected JellyBeanTACrypto(@NonNull CertProperties certProperties, @NonNull CryptoPrefs cryptoPrefs,
+                                @NonNull Context context, @NonNull TABase64 taBase64) {
+        super(certProperties, cryptoPrefs, taBase64);
         this.context = context;
     }
 
     @Override
     public byte[] encrypt(byte[] bytes) throws InvalidEncryptionException {
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", ANDROID_KEY_STORE);
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(getEncryptionAlgorithm(), ANDROID_KEY_STORE);
             keyPairGenerator.initialize(new KeyPairGeneratorSpec.Builder(context)
                     .setAlias(certProperties.getAlias())
                     .setSubject(new X500Principal("CN=" + certProperties.getAlias()))
@@ -46,7 +48,7 @@ public class JellyBeanTACrypto extends TACrypto {
                     .setEndDate(certProperties.getEndTime())
                     .build());
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
+            Cipher cipher = Cipher.getInstance(getCipherAlgorithm());
             cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
             return cipher.doFinal(bytes);
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException | InvalidAlgorithmParameterException
@@ -62,12 +64,24 @@ public class JellyBeanTACrypto extends TACrypto {
             keyStore.load(null);
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore
                     .getEntry(certProperties.getAlias(), null);
-            Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
+            Cipher cipher = Cipher.getInstance(getCipherAlgorithm());
             cipher.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
             return cipher.doFinal(encryptedData);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | InvalidKeyException
                 | UnrecoverableEntryException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new InvalidEncryptionException("Something went wrong during decryption ", e);
         }
+    }
+
+    @NonNull
+    @Override
+    protected String getEncryptionAlgorithm() {
+        return "RSA";
+    }
+
+    @NonNull
+    @Override
+    protected String getCipherAlgorithm() {
+        return "RSA/ECB/NoPadding";
     }
 }

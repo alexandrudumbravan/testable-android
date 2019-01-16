@@ -49,6 +49,20 @@ public class TABundleTest {
     }
 
     @Test
+    public void init() {
+        Parcel parcel = mock(Parcel.class);
+        when(parcel.readBundle(TABundle.class.getClassLoader())).thenReturn(bundle);
+        subject = new TABundle(parcel);
+        assertEquals(bundle, subject.bundle);
+
+        int size = 5;
+        TABundle taBundle = TABundle.CREATOR.createFromParcel(parcel);
+        TABundle[] taBundles = TABundle.CREATOR.newArray(size);
+        assertEquals(bundle, taBundle.bundle);
+        assertEquals(taBundles.length, size);
+    }
+
+    @Test
     public void clear() {
         subject.clear();
         verify(bundle).clear();

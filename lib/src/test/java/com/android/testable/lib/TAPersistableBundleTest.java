@@ -35,6 +35,20 @@ public class TAPersistableBundleTest {
     }
 
     @Test
+    public void init() {
+        Parcel parcel = mock(Parcel.class);
+        when(parcel.readPersistableBundle(TAPersistableBundle.class.getClassLoader())).thenReturn(persistableBundle);
+        subject = new TAPersistableBundle(parcel);
+        assertEquals(persistableBundle, subject.bundle);
+
+        int size = 5;
+        TAPersistableBundle taPersistableBundle = TAPersistableBundle.CREATOR.createFromParcel(parcel);
+        TAPersistableBundle[] taPersistableBundles = TAPersistableBundle.CREATOR.newArray(size);
+        assertEquals(persistableBundle, taPersistableBundle.bundle);
+        assertEquals(taPersistableBundles.length, size);
+    }
+
+    @Test
     public void clear() {
         subject.clear();
         verify(persistableBundle).clear();

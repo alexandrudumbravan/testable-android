@@ -3,9 +3,9 @@ package com.android.testable.lib.crypto;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.util.Base64;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import com.android.testable.lib.util.TABase64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -27,23 +27,24 @@ import java.security.cert.CertificateException;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class MarshmallowTACrypto extends TACrypto {
 
-    MarshmallowTACrypto(@NonNull CertProperties certProperties, @NonNull CryptoPrefs cryptoPrefs) {
-        super(certProperties, cryptoPrefs);
+    protected MarshmallowTACrypto(@NonNull CertProperties certProperties, @NonNull CryptoPrefs cryptoPrefs,
+                                  @NonNull TABase64 taBase64) {
+        super(certProperties, cryptoPrefs, taBase64);
     }
 
     @Override
     public byte[] encrypt(byte[] bytes) throws InvalidEncryptionException {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES", ANDROID_KEY_STORE);
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(getEncryptionAlgorithm(), ANDROID_KEY_STORE);
             keyGenerator.init(new KeyGenParameterSpec.Builder(certProperties.getAlias(),
                     KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .build());
             SecretKey secretKey = keyGenerator.generateKey();
-            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            Cipher cipher = Cipher.getInstance(getCipherAlgorithm());
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            cryptoPrefs.putIvData(Base64.encodeToString(cipher.getIV(), Base64.NO_WRAP));
+            cryptoPrefs.putIvData(taBase64.encodeToString(cipher.getIV(), TABase64.NO_WRAP));
             return cipher.doFinal(bytes);
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException | InvalidAlgorithmParameterException
                 | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
@@ -59,8 +60,8 @@ public class MarshmallowTACrypto extends TACrypto {
             KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore
                     .getEntry(certProperties.getAlias(), null);
             SecretKey secretKey = secretKeyEntry.getSecretKey();
-            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-            GCMParameterSpec ivParameterSpec = new GCMParameterSpec(128, Base64.decode(cryptoPrefs.getIvData(), Base64.NO_WRAP));
+            Cipher cipher = Cipher.getInstance(getCipherAlgorithm());
+            GCMParameterSpec ivParameterSpec = new GCMParameterSpec(128, taBase64.decode(cryptoPrefs.getIvData(), TABase64.NO_WRAP));
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
             return cipher.doFinal(encryptedData);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | InvalidKeyException
@@ -68,5 +69,17 @@ public class MarshmallowTACrypto extends TACrypto {
                 | InvalidAlgorithmParameterException e) {
             throw new InvalidEncryptionException("Something went wrong during decryption ", e);
         }
+    }
+
+    @NonNull
+    @Override
+    protected String getEncryptionAlgorithm() {
+        return "AES";
+    }
+
+    @NonNull
+    @Override
+    protected String getCipherAlgorithm() {
+        return "AES/GCM/NoPadding";
     }
 }
