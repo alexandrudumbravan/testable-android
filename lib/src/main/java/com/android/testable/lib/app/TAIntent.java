@@ -3,7 +3,7 @@ package com.android.testable.lib.app;
 import android.content.Context;
 import android.content.Intent;
 
-public class TAIntent {
+public class TAIntent implements TAIntentActions {
 
     public final Intent intent;
 
