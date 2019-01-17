@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import androidx.annotation.NonNull;
 
 public class ComponentGenerator {
 
+    @NonNull
     public IntentFilter createIntentFilter(String action) {
         return new IntentFilter(action);
     }
@@ -15,10 +17,12 @@ public class ComponentGenerator {
         return Build.VERSION.SDK_INT;
     }
 
-    public Intent createIntent(Context context, Class<?> myClass) {
+    @NonNull
+    public Intent createIntent(@NonNull Context context, @NonNull Class<?> myClass) {
         return new Intent(context, myClass);
     }
 
+    @NonNull
     public static ComponentGenerator create() {
         return new ComponentGenerator();
     }

@@ -16,11 +16,11 @@ public class ComponentStarter {
     @NonNull
     private ComponentGenerator componentGenerator;
 
-    public ComponentStarter(@NonNull Fragment fragment, @NonNull ComponentGenerator componentGenerator) {
+    protected ComponentStarter(@NonNull Fragment fragment, @NonNull ComponentGenerator componentGenerator) {
         this(fragment.getActivity(), componentGenerator);
     }
 
-    public ComponentStarter(@NonNull Activity activity, @NonNull ComponentGenerator componentGenerator) {
+    protected ComponentStarter(@NonNull Activity activity, @NonNull ComponentGenerator componentGenerator) {
         this.activity = activity;
         this.componentGenerator = componentGenerator;
     }
@@ -46,5 +46,14 @@ public class ComponentStarter {
         }
         intent.setAction(starterConfig.getAction());
         return intent;
+    }
+
+
+    public static ComponentStarter create(Fragment fragment) {
+        return new ComponentStarter(fragment, ComponentGenerator.create());
+    }
+
+    public static ComponentStarter create(Activity activity) {
+        return new ComponentStarter(activity, ComponentGenerator.create());
     }
 }
