@@ -144,6 +144,13 @@ public abstract class ComponentStarter<T> {
         }
     }
 
+    public void finish() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.finish();
+        }
+    }
+
     public abstract void startActivityForResult(@NonNull TAIntent taIntent, int requestCode);
 
     public abstract void startActivityForResult(@NonNull TAIntent taIntent, int requestCode, @NonNull TABundle options);

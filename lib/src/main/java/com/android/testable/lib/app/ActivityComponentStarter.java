@@ -10,8 +10,8 @@ import com.android.testable.lib.os.TABundle;
 
 public class ActivityComponentStarter extends ComponentStarter<Activity> {
 
-    public ActivityComponentStarter(Activity type) {
-        super(type);
+    public ActivityComponentStarter(Activity activity) {
+        super(activity);
     }
 
     @Nullable

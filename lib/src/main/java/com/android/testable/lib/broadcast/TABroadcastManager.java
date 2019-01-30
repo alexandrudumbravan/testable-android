@@ -16,7 +16,8 @@ public class TABroadcastManager {
     @NonNull
     private ComponentGenerator componentGenerator;
 
-    TABroadcastManager(@NonNull Context context, @NonNull LocalBroadcastManager localBroadcastManager,
+    TABroadcastManager(@NonNull Context context,
+                       @NonNull LocalBroadcastManager localBroadcastManager,
                        @NonNull ComponentGenerator componentGenerator) {
         this.context = context;
         this.localBroadcastManager = localBroadcastManager;
@@ -63,7 +64,8 @@ public class TABroadcastManager {
 
 
     public static TABroadcastManager create(@NonNull Context context) {
-        return new TABroadcastManager(context.getApplicationContext(), LocalBroadcastManager.getInstance(context.getApplicationContext()),
+        return new TABroadcastManager(context.getApplicationContext(),
+                LocalBroadcastManager.getInstance(context.getApplicationContext()),
                 new ComponentGenerator());
     }
 

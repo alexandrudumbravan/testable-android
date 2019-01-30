@@ -8,8 +8,8 @@ import com.android.testable.lib.os.TABundle;
 
 public class FragmentComponentStarter extends ComponentStarter<Fragment> {
 
-    public FragmentComponentStarter(Fragment type) {
-        super(type);
+    public FragmentComponentStarter(Fragment fragment) {
+        super(fragment);
     }
 
     @Nullable
