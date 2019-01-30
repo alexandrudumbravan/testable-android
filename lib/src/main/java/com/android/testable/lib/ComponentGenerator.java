@@ -18,11 +18,6 @@ public class ComponentGenerator {
     }
 
     @NonNull
-    public Intent createIntent(@NonNull Context context, @NonNull Class<?> myClass) {
-        return new Intent(context, myClass);
-    }
-
-    @NonNull
     public static ComponentGenerator create() {
         return new ComponentGenerator();
     }

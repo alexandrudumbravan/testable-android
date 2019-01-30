@@ -166,5 +166,38 @@ public interface TAIntentFlags {
      * Constant connected to {@link Intent#URI_INTENT_SCHEME}
      */
     int URI_INTENT_SCHEME = 0x00000001;
-
+    /**
+     * Constant connected to {@link Intent#FILL_IN_ACTION}
+     */
+    int FILL_IN_ACTION = 0x00000001;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_CATEGORIES}
+     */
+    int FILL_IN_CATEGORIES = 0x00000004;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_CLIP_DATA}
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    int FILL_IN_CLIP_DATA = 0x00000080;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_COMPONENT}
+     */
+    int FILL_IN_COMPONENT = 0x00000008;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_DATA}
+     */
+    int FILL_IN_DATA = 0x00000002;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_PACKAGE}
+     */
+    int FILL_IN_PACKAGE = 0x00000010;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_SELECTOR}
+     */
+    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+    int FILL_IN_SELECTOR = 0x00000040;
+    /**
+     * Constant connected to {@link Intent#FILL_IN_SOURCE_BOUNDS}
+     */
+    int FILL_IN_SOURCE_BOUNDS = 0x00000020;
 }
