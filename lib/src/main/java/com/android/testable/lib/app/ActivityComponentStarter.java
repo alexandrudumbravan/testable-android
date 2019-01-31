@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import com.android.testable.lib.os.TABundle;
+import com.android.testable.lib.util.NonNullRunnable;
 
 public class ActivityComponentStarter extends ComponentStarter<Activity> {
 
@@ -21,27 +22,43 @@ public class ActivityComponentStarter extends ComponentStarter<Activity> {
     }
 
     @Override
-    public void startActivityForResult(@NonNull TAIntent taIntent, int requestCode) {
-        Activity activity = getActivity();
-        if (activity != null) {
-            activity.startActivityForResult(taIntent.intent, requestCode);
-        }
+    public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode) {
+        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
+            @Override
+            public void run(@NonNull Activity activity) {
+                activity.startActivityForResult(taIntent.intent, requestCode);
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void startActivityForResult(@NonNull TAIntent taIntent, int requestCode, @NonNull TABundle options) {
-        Activity activity = getActivity();
-        if (activity != null) {
-            activity.startActivityForResult(taIntent.intent, requestCode, options.bundle);
-        }
+    public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode, @NonNull final TABundle options) {
+        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
+            @Override
+            public void run(@NonNull Activity activity) {
+                activity.startActivityForResult(taIntent.intent, requestCode, options.bundle);
+            }
+        });
     }
 
     @Override
-    public void startActivityForResultCompat(@NonNull TAIntent taIntent, int requestCode, @NonNull TABundle options) {
-        Activity activity = getActivity();
-        if (activity != null) {
-            ActivityCompat.startActivityForResult(activity, taIntent.intent, requestCode, options.bundle);
-        }
+    public void startActivityForResultCompat(@NonNull final TAIntent taIntent, final int requestCode, @NonNull final TABundle options) {
+        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
+            @Override
+            public void run(@NonNull Activity activity) {
+                ActivityCompat.startActivityForResult(activity, taIntent.intent, requestCode, options.bundle);
+            }
+        });
+    }
+
+    @Override
+    public void requestPermissions(@NonNull final String[] permissions, final int requestCode) {
+        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
+            @Override
+            public void run(@NonNull Activity activity) {
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            }
+        });
     }
 }

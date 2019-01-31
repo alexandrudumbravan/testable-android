@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.android.testable.lib.os.TABundle;
+import com.android.testable.lib.util.NonNullRunnable;
 
 public class FragmentComponentStarter extends ComponentStarter<Fragment> {
 
@@ -23,24 +24,38 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
     }
 
     @Override
-    public void startActivityForResult(@NonNull TAIntent taIntent, int requestCode) {
-        Fragment fragment = getFragment();
-        if (fragment != null) {
-            fragment.startActivityForResult(taIntent.intent, requestCode);
-        }
+    public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode) {
+        NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
+            @Override
+            public void run(@NonNull Fragment fragment) {
+                fragment.startActivityForResult(taIntent.intent, requestCode);
+            }
+        });
     }
 
     @Override
-    public void startActivityForResult(@NonNull TAIntent taIntent, int requestCode, @NonNull TABundle options) {
-        Fragment fragment = getFragment();
-        if (fragment != null) {
-            fragment.startActivityForResult(taIntent.intent, requestCode, options.bundle);
-        }
+    public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode, @NonNull final TABundle options) {
+        NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
+            @Override
+            public void run(@NonNull Fragment fragment) {
+                fragment.startActivityForResult(taIntent.intent, requestCode, options.bundle);
+            }
+        });
     }
 
     @Override
     public void startActivityForResultCompat(@NonNull TAIntent taIntent, int requestCode, @NonNull TABundle options) {
         startActivityForResult(taIntent, requestCode, options);
+    }
+
+    @Override
+    public void requestPermissions(@NonNull final String[] permissions, final int requestCode) {
+        NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
+            @Override
+            public void run(@NonNull Fragment fragment) {
+                fragment.requestPermissions(permissions, requestCode);
+            }
+        });
     }
 
     @Nullable

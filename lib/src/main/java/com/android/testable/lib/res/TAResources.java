@@ -46,7 +46,7 @@ import java.io.InputStream;
 
 public class TAResources {
 
-    private final Resources resources;
+    public final Resources resources;
     private final Context context;
 
     public TAResources(@NonNull Context context) {

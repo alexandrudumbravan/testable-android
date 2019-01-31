@@ -1,10 +1,6 @@
 package com.android.testable.lib.os;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.*;
 import android.util.Size;
 import android.util.SizeF;
 import android.util.SparseArray;
@@ -21,6 +17,10 @@ public class TABundle implements Parcelable {
 
     @NonNull
     public final Bundle bundle;
+
+    public TABundle() {
+        this(new Bundle());
+    }
 
     public TABundle(@Nullable Bundle bundle) {
         this.bundle = bundle == null ? new Bundle() : bundle;

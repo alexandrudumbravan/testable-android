@@ -38,62 +38,6 @@ public class TAUri implements Comparable<TAUri>, Parcelable {
     };
 
     /**
-     * Invokes {@link Uri#decode(String)}
-     */
-    @NonNull
-    public static String decode(@NonNull String s) {
-        return Uri.decode(s);
-    }
-
-    /**
-     * Invokes {@link Uri#encode(String, String)}
-     */
-    @NonNull
-    public static String encode(String s, String allow) {
-        return Uri.encode(s, allow);
-    }
-
-    /**
-     * Invokes {@link Uri#encode(String)}
-     */
-    @NonNull
-    public static String encode(String s) {
-        return Uri.encode(s);
-    }
-
-    /**
-     * Invokes {@link Uri#fromFile(File)}
-     */
-    @NonNull
-    public static TAUri fromFile(@NonNull File file) {
-        return new TAUri(Uri.fromFile(file));
-    }
-
-    /**
-     * Invokes {@link Uri#fromParts(String, String, String)}
-     */
-    @NonNull
-    public static TAUri fromParts(@NonNull String scheme, @NonNull String ssp, @NonNull String fragment) {
-        return new TAUri(Uri.fromParts(scheme, ssp, fragment));
-    }
-
-    /**
-     * Invokes {@link Uri#parse(String)}
-     */
-    @NonNull
-    public static TAUri parse(@NonNull String uriString) {
-        return new TAUri(Uri.parse(uriString));
-    }
-
-    /**
-     * Invokes {@link Uri#withAppendedPath(Uri, String)}
-     */
-    @NonNull
-    public static TAUri withAppendedPath(@NonNull Uri baseUri, @NonNull String pathSegment) {
-        return new TAUri(Uri.withAppendedPath(baseUri, pathSegment));
-    }
-
-    /**
      * Constructs a new {@link Builder} from the existing uri by invoking {@link Uri#buildUpon()}
      */
     @NonNull
