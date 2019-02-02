@@ -12,15 +12,15 @@ public class TABroadcastManager {
     @NonNull
     private Context context;
     @NonNull
-    private LocalBroadcastManager localBroadcastManager;
+    private LocalBroadcastManagerWrapper localBroadcastManagerWrapper;
     @NonNull
     private ComponentGenerator componentGenerator;
 
     TABroadcastManager(@NonNull Context context,
-                       @NonNull LocalBroadcastManager localBroadcastManager,
+                       @NonNull LocalBroadcastManagerWrapper localBroadcastManagerWrapper,
                        @NonNull ComponentGenerator componentGenerator) {
         this.context = context;
-        this.localBroadcastManager = localBroadcastManager;
+        this.localBroadcastManagerWrapper = localBroadcastManagerWrapper;
         this.componentGenerator = componentGenerator;
     }
 
@@ -50,7 +50,7 @@ public class TABroadcastManager {
      * @param action              the action associated with receiver
      */
     public void registerLocalBroadcastReceiver(@NonNull TABroadcastReceiver taBroadcastReceiver, @NonNull String action) {
-        localBroadcastManager.registerReceiver(taBroadcastReceiver, componentGenerator.createIntentFilter(action));
+        localBroadcastManagerWrapper.registerReceiver(taBroadcastReceiver, componentGenerator.createIntentFilter(action));
     }
 
     /**
@@ -59,13 +59,13 @@ public class TABroadcastManager {
      * @param taBroadcastReceiver the receiver to unregister
      */
     public void unregisterLocalBroadcastReceiver(@NonNull TABroadcastReceiver taBroadcastReceiver) {
-        localBroadcastManager.unregisterReceiver(taBroadcastReceiver);
+        localBroadcastManagerWrapper.unregisterReceiver(taBroadcastReceiver);
     }
 
 
     public static TABroadcastManager create(@NonNull Context context) {
         return new TABroadcastManager(context.getApplicationContext(),
-                LocalBroadcastManager.getInstance(context.getApplicationContext()),
+                LocalBroadcastManagerWrapper.create(context),
                 new ComponentGenerator());
     }
 

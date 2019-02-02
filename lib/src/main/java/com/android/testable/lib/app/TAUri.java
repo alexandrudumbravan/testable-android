@@ -41,7 +41,7 @@ public class TAUri implements Comparable<TAUri>, Parcelable {
      * Constructs a new {@link Builder} from the existing uri by invoking {@link Uri#buildUpon()}
      */
     @NonNull
-    public Builder buildUpdon() {
+    public Builder buildUpon() {
         return new Builder(this.uri.buildUpon());
     }
 
@@ -281,7 +281,7 @@ public class TAUri implements Comparable<TAUri>, Parcelable {
 
     @Override
     public int describeContents() {
-        return hashCode();
+        return uri.describeContents();
     }
 
     @Override
