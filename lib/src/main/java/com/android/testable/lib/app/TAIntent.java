@@ -86,8 +86,8 @@ public class TAIntent implements TAIntentActions, TAIntentCategories, TAIntentEx
      * @param flags one of the fill in values in {@link TAIntentFlags}
      * @return a flag or combination of flags of the changed fields from {@link TAIntentFlags}
      */
-    public int fillIn(@NonNull Intent other, int flags) {
-        return this.intent.fillIn(other, flags);
+    public int fillIn(@NonNull TAIntent other, int flags) {
+        return this.intent.fillIn(other.intent, flags);
     }
 
     /**
@@ -96,8 +96,8 @@ public class TAIntent implements TAIntentActions, TAIntentCategories, TAIntentEx
      * @param other The other Intent to compare against.
      * @return true if action, data, type, class, and categories are the same.
      */
-    public boolean filterEquals(@NonNull Intent other) {
-        return this.intent.filterEquals(other);
+    public boolean filterEquals(@NonNull TAIntent other) {
+        return this.intent.filterEquals(other.intent);
     }
 
     /**
@@ -578,8 +578,8 @@ public class TAIntent implements TAIntentActions, TAIntentCategories, TAIntentEx
      *
      * @param selector The desired selector Intent; set to null to not use a special selector.
      */
-    public void setSelector(@Nullable Intent selector) {
-        this.intent.setSelector(selector);
+    public void setSelector(@Nullable TAIntent selector) {
+        this.intent.setSelector(selector.intent);
     }
 
     /**
@@ -628,7 +628,7 @@ public class TAIntent implements TAIntentActions, TAIntentCategories, TAIntentEx
     }
 
     /**
-     * Invokes {@link Intent#setType(String)}
+     * Invokes {@link Intent#toUri(int)}
      *
      * @param flags Additional operating flags.
      * @return Returns a URI encoding URI string describing the entire contents of the Intent.

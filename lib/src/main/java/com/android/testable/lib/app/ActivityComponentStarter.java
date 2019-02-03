@@ -6,13 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import com.android.testable.lib.ComponentGenerator;
 import com.android.testable.lib.os.TABundle;
 import com.android.testable.lib.util.NonNullRunnable;
 
 public class ActivityComponentStarter extends ComponentStarter<Activity> {
 
-    public ActivityComponentStarter(Activity activity) {
-        super(activity);
+    public ActivityComponentStarter(Activity activity, ComponentGenerator componentGenerator) {
+        super(activity, componentGenerator);
     }
 
     @Nullable

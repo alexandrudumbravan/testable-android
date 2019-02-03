@@ -4,13 +4,14 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.android.testable.lib.ComponentGenerator;
 import com.android.testable.lib.os.TABundle;
 import com.android.testable.lib.util.NonNullRunnable;
 
 public class FragmentComponentStarter extends ComponentStarter<Fragment> {
 
-    public FragmentComponentStarter(Fragment fragment) {
-        super(fragment);
+    public FragmentComponentStarter(Fragment fragment, ComponentGenerator componentGenerator) {
+        super(fragment, componentGenerator);
     }
 
     @Nullable
@@ -18,7 +19,7 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
     protected Activity getActivity() {
         Fragment fragment = reference.get();
         if (fragment != null) {
-            return fragment.getActivity();
+            return (Activity) fragment.getContext();
         }
         return null;
     }
@@ -53,7 +54,7 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
         NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
             @Override
             public void run(@NonNull Fragment fragment) {
-                fragment.requestPermissions(permissions, requestCode);
+                requestPermissions(fragment, permissions, requestCode);
             }
         });
     }
@@ -65,5 +66,9 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
             return fragment;
         }
         return null;
+    }
+
+    void requestPermissions(@NonNull Fragment fragment, @NonNull String[] permissions, int requestCode) {
+        fragment.requestPermissions(permissions, requestCode);
     }
 }

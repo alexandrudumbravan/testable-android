@@ -2,13 +2,13 @@ package com.android.testable.lib.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.android.testable.lib.ComponentGenerator;
 import com.android.testable.lib.os.TABundle;
 import com.android.testable.lib.util.NonNullRunnable;
 
@@ -22,9 +22,12 @@ public abstract class ComponentStarter<T> {
 
     @NonNull
     WeakReference<T> reference;
+    @NonNull
+    ComponentGenerator componentGenerator;
 
-    ComponentStarter(T type) {
+    ComponentStarter(T type, @NonNull ComponentGenerator componentGenerator) {
         this.reference = new WeakReference<>(type);
+        this.componentGenerator = componentGenerator;
     }
 
     @Nullable
@@ -32,45 +35,45 @@ public abstract class ComponentStarter<T> {
 
     @NonNull
     public TAIntent createIntent() {
-        return new TAIntent();
+        return componentGenerator.createIntent();
     }
 
     @NonNull
     public TAIntent createIntent(@NonNull TAIntent taIntent) {
-        return new TAIntent(taIntent);
+        return componentGenerator.createIntent(taIntent);
     }
 
     @NonNull
     public TAIntent createIntent(@NonNull String action) {
-        return new TAIntent(action);
+        return componentGenerator.createIntent(action);
     }
 
     @NonNull
     public TAIntent createIntent(@NonNull String action, @NonNull TAUri taUri) {
-        return new TAIntent(action, taUri);
+        return componentGenerator.createIntent(action, taUri);
     }
 
     @Nullable
     public TAIntent createIntent(@NonNull Class<?> activityClass) {
         Activity activity = getActivity();
         if (activity != null) {
-            return new TAIntent(activity, activityClass);
+            return componentGenerator.createIntent(activity, activityClass);
         }
         return null;
-    }
-
-    @Nullable
-    public TABundle createExtras() {
-        return new TABundle();
     }
 
     @Nullable
     public TAIntent createIntent(@NonNull String action, @NonNull TAUri taUri, @NonNull Class<?> activityClass) {
         Activity activity = getActivity();
         if (activity != null) {
-            return new TAIntent(action, taUri, activity, activityClass);
+            return componentGenerator.createIntent(activity, action, taUri, activityClass);
         }
         return null;
+    }
+
+    @Nullable
+    public TABundle createExtras() {
+        return componentGenerator.createExtras();
     }
 
     public void startService(@NonNull final TAIntent taIntent) {
@@ -187,7 +190,7 @@ public abstract class ComponentStarter<T> {
     public boolean isGrantedPermission(@NonNull String permission) {
         Activity activity = getActivity();
         if (activity != null) {
-            return ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED;
+            return ContextCompat.checkSelfPermission(activity, permission) == TAAndroidPermissions.PERMISSION_GRANTED;
         }
         return false;
     }
