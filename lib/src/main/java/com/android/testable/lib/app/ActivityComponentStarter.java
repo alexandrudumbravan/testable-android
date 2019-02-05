@@ -24,42 +24,26 @@ public class ActivityComponentStarter extends ComponentStarter<Activity> {
 
     @Override
     public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.startActivityForResult(taIntent.intent, requestCode);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> activity.startActivityForResult(taIntent.intent, requestCode));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.startActivityForResult(taIntent.intent, requestCode, options.bundle);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> activity.startActivityForResult(taIntent.intent, requestCode, options.bundle));
     }
 
     @Override
     public void startActivityForResultCompat(@NonNull final TAIntent taIntent, final int requestCode, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                ActivityCompat.startActivityForResult(activity, taIntent.intent, requestCode, options.bundle);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> ActivityCompat.startActivityForResult(activity, taIntent.intent, requestCode, options.bundle));
     }
 
     @Override
     public void requestPermissions(@NonNull final String[] permissions, final int requestCode) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                ActivityCompat.requestPermissions(activity, permissions, requestCode);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> ActivityCompat.requestPermissions(activity, permissions, requestCode));
+    }
+
+    public static ActivityComponentStarter create(Activity activity) {
+        return new ActivityComponentStarter(activity, new ComponentGenerator());
     }
 }

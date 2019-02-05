@@ -26,22 +26,12 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
 
     @Override
     public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode) {
-        NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
-            @Override
-            public void run(@NonNull Fragment fragment) {
-                fragment.startActivityForResult(taIntent.intent, requestCode);
-            }
-        });
+        NonNullRunnable.Executor.execute(getFragment(), fragment -> fragment.startActivityForResult(taIntent.intent, requestCode));
     }
 
     @Override
     public void startActivityForResult(@NonNull final TAIntent taIntent, final int requestCode, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
-            @Override
-            public void run(@NonNull Fragment fragment) {
-                fragment.startActivityForResult(taIntent.intent, requestCode, options.bundle);
-            }
-        });
+        NonNullRunnable.Executor.execute(getFragment(), fragment -> fragment.startActivityForResult(taIntent.intent, requestCode, options.bundle));
     }
 
     @Override
@@ -51,12 +41,7 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
 
     @Override
     public void requestPermissions(@NonNull final String[] permissions, final int requestCode) {
-        NonNullRunnable.Executor.execute(getFragment(), new NonNullRunnable<Fragment>() {
-            @Override
-            public void run(@NonNull Fragment fragment) {
-                requestPermissions(fragment, permissions, requestCode);
-            }
-        });
+        NonNullRunnable.Executor.execute(getFragment(), fragment -> requestPermissions(fragment, permissions, requestCode));
     }
 
     @Nullable
