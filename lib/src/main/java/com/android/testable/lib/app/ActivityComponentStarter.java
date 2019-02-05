@@ -43,6 +43,7 @@ public class ActivityComponentStarter extends ComponentStarter<Activity> {
         NonNullRunnable.Executor.execute(getActivity(), activity -> ActivityCompat.requestPermissions(activity, permissions, requestCode));
     }
 
+    @NonNull
     public static ActivityComponentStarter create(Activity activity) {
         return new ActivityComponentStarter(activity, new ComponentGenerator());
     }

@@ -43,7 +43,7 @@ public class TAIntentHelperTest {
         String title = "title";
         Intent chooserIntent = mock(Intent.class);
         when(Intent.createChooser(intent, title)).thenReturn(chooserIntent);
-        assertEquals(chooserIntent, subject.createChooser(intent, title));
+        assertEquals(chooserIntent, subject.createChooser(new TAIntent(intent), title).intent);
     }
 
     @Test
@@ -52,21 +52,21 @@ public class TAIntentHelperTest {
         IntentSender intentSender = mock(IntentSender.class);
         Intent chooserIntent = mock(Intent.class);
         when(Intent.createChooser(intent, title, intentSender)).thenReturn(chooserIntent);
-        assertEquals(chooserIntent, subject.createChooser(intent, title, intentSender));
+        assertEquals(chooserIntent, subject.createChooser(new TAIntent(intent), title, intentSender).intent);
     }
 
     @Test
     public void getIntentOld() throws URISyntaxException {
         String uri = "uri";
         when(Intent.getIntentOld(uri)).thenReturn(intent);
-        assertEquals(intent, subject.getIntentOld(uri));
+        assertEquals(intent, subject.getIntentOld(uri).intent);
     }
 
     @Test
     public void makeMainActivity() {
         ComponentName componentName = mock(ComponentName.class);
         when(Intent.makeMainActivity(componentName)).thenReturn(intent);
-        assertEquals(intent, subject.makeMainActivity(componentName));
+        assertEquals(intent, subject.makeMainActivity(componentName).intent);
     }
 
     @Test
@@ -74,14 +74,14 @@ public class TAIntentHelperTest {
         String action = "action";
         String category = "category";
         when(Intent.makeMainSelectorActivity(action, category)).thenReturn(intent);
-        assertEquals(intent, subject.makeMainSelectorActivity(action, category));
+        assertEquals(intent, subject.makeMainSelectorActivity(action, category).intent);
     }
 
     @Test
     public void makeRestartActivityTask() {
         ComponentName componentName = mock(ComponentName.class);
         when(Intent.makeRestartActivityTask(componentName)).thenReturn(intent);
-        assertEquals(intent, subject.makeRestartActivityTask(componentName));
+        assertEquals(intent, subject.makeRestartActivityTask(componentName).intent);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class TAIntentHelperTest {
         XmlPullParser parser = mock(XmlPullParser.class);
         AttributeSet attrs = mock(AttributeSet.class);
         when(Intent.parseIntent(taResources.resources, parser, attrs)).thenReturn(intent);
-        assertEquals(intent, subject.parseIntent(taResources, parser, attrs));
+        assertEquals(intent, subject.parseIntent(taResources, parser, attrs).intent);
     }
 
     @Test
@@ -110,6 +110,6 @@ public class TAIntentHelperTest {
         String type = "type";
         int flags = 1;
         when(Intent.parseUri(type, flags)).thenReturn(intent);
-        assertEquals(intent, subject.parseUri(type, flags));
+        assertEquals(intent, subject.parseUri(type, flags).intent);
     }
 }

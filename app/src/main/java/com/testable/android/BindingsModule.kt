@@ -9,5 +9,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class BindingsModule {
 
     @ContributesAndroidInjector(modules = [MvpModule::class])
+    @ActivityScope
     abstract fun bindMvpActivity(): MvpActivity
 }

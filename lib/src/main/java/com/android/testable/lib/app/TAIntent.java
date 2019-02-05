@@ -46,8 +46,8 @@ public class TAIntent implements TAIntentActions, TAIntentCategories, TAIntentEx
         this(new Intent(action, taUri.uri, context, activityClass));
     }
 
-    public TAIntent(@NonNull Intent intent) {
-        this.intent = intent;
+    public TAIntent(@Nullable Intent intent) {
+        this.intent = intent == null ? new Intent() : intent;
     }
 
     protected TAIntent(Parcel in) {

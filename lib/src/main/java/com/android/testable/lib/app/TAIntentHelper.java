@@ -23,49 +23,48 @@ public class TAIntentHelper {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @NonNull
-    public Intent createChooser(@NonNull Intent target, @Nullable CharSequence title, @Nullable IntentSender sender) {
-        return Intent.createChooser(target, title, sender);
+    public TAIntent createChooser(@NonNull TAIntent target, @Nullable CharSequence title, @Nullable IntentSender sender) {
+        return new TAIntent(Intent.createChooser(target.intent, title, sender));
     }
 
     /**
      * Invokes {@link Intent#createChooser(Intent, CharSequence)}
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @NonNull
-    public Intent createChooser(@NonNull Intent target, @Nullable CharSequence title) {
-        return Intent.createChooser(target, title);
+    public TAIntent createChooser(@NonNull TAIntent target, @Nullable CharSequence title) {
+        return new TAIntent(Intent.createChooser(target.intent, title));
     }
 
     /**
      * Invokes {@link Intent#getIntentOld(String)}
      */
     @NonNull
-    public Intent getIntentOld(@NonNull String uri) throws URISyntaxException {
-        return Intent.getIntentOld(uri);
+    public TAIntent getIntentOld(@NonNull String uri) throws URISyntaxException {
+        return new TAIntent(Intent.getIntentOld(uri));
     }
 
     /**
      * Invokes {@link Intent#makeMainActivity(ComponentName)}
      */
     @NonNull
-    public Intent makeMainActivity(@NonNull ComponentName mainActivity) {
-        return Intent.makeMainActivity(mainActivity);
+    public TAIntent makeMainActivity(@NonNull ComponentName mainActivity) {
+        return new TAIntent(Intent.makeMainActivity(mainActivity));
     }
 
     /**
      * Invokes {@link Intent#makeMainSelectorActivity(String, String)}
      */
     @NonNull
-    public Intent makeMainSelectorActivity(@NonNull String selectorAction, @Nullable String selectorCategory) {
-        return Intent.makeMainSelectorActivity(selectorAction, selectorCategory);
+    public TAIntent makeMainSelectorActivity(@NonNull String selectorAction, @Nullable String selectorCategory) {
+        return new TAIntent(Intent.makeMainSelectorActivity(selectorAction, selectorCategory));
     }
 
     /**
      * Invokes {@link Intent#makeRestartActivityTask(ComponentName)}
      */
     @NonNull
-    public Intent makeRestartActivityTask(@NonNull ComponentName mainActivity) {
-        return Intent.makeRestartActivityTask(mainActivity);
+    public TAIntent makeRestartActivityTask(@NonNull ComponentName mainActivity) {
+        return new TAIntent(Intent.makeRestartActivityTask(mainActivity));
     }
 
     /**
@@ -81,15 +80,15 @@ public class TAIntentHelper {
      * Invokes {@link Intent#parseIntent(Resources, XmlPullParser, AttributeSet)}
      */
     @NonNull
-    public Intent parseIntent(TAResources resources, XmlPullParser parser, AttributeSet attrs) throws IOException, XmlPullParserException {
-        return Intent.parseIntent(resources.resources, parser, attrs);
+    public TAIntent parseIntent(TAResources resources, XmlPullParser parser, AttributeSet attrs) throws IOException, XmlPullParserException {
+        return new TAIntent(Intent.parseIntent(resources.resources, parser, attrs));
     }
 
     /**
      * Invokes {@link Intent#parseUri(String, int)}
      */
     @NonNull
-    public Intent parseUri(String uri, int flags) throws URISyntaxException {
-        return Intent.parseUri(uri, flags);
+    public TAIntent parseUri(String uri, int flags) throws URISyntaxException {
+        return new TAIntent(Intent.parseUri(uri, flags));
     }
 }
