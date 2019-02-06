@@ -3,6 +3,7 @@ package com.testable.android.mvp
 import com.android.testable.lib.app.*
 import com.android.testable.lib.os.TABundle
 import com.android.testable.lib.presentable.Intentable
+import com.android.testable.lib.presentable.Permissible
 import com.android.testable.lib.presentable.Resultable
 import com.android.testable.lib.presentable.StateSavable
 import com.android.testable.lib.res.TAResources
@@ -15,12 +16,13 @@ class MvpPresenter(
     private val componentStarter: ActivityComponentStarter,
     private val taResources: TAResources,
     private val taIntentHelper: TAIntentHelper
-) : Intentable, StateSavable, Resultable {
+) : Intentable, StateSavable, Resultable, Permissible {
 
     companion object {
         const val EXTRA_TEXT = BuildConfig.APPLICATION_ID + ".extras.Mvp.TEXT"
 
         private const val REQUEST_CODE_PICK_IMAGE = 100
+        private const val REQUEST_CODE_PERMISSION = 200
         private const val STATE_URI = "state_uri"
     }
 
@@ -68,5 +70,27 @@ class MvpPresenter(
         uri?.let {
             mvpView.showText(taResources.getString(R.string.test_format_string, it.toString()))
         }
+    }
+
+    fun requestPermission() {
+        val permission = TAAndroidPermissions.READ_EXTERNAL_STORAGE
+        if (componentStarter.isGrantedPermission(permission)) {
+            mvpView.showToast(taResources.getString(R.string.permission_already_granted))
+        } else {
+            componentStarter.requestPermissions(arrayOf(permission), REQUEST_CODE_PERMISSION)
+        }
+    }
+
+    override fun onPermissionGranted(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_CODE_PERMISSION -> {
+                if (grantResults[0] == TAAndroidPermissions.PERMISSION_GRANTED) {
+                    mvpView.showToast(taResources.getString(R.string.permission_granted))
+                } else {
+                    mvpView.showToast(taResources.getString(R.string.permission_denied))
+                }
+            }
+        }
+
     }
 }

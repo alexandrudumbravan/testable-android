@@ -95,6 +95,7 @@ public abstract class TACrypto {
     protected abstract String getCipherAlgorithm();
 
     @SuppressLint("NewApi")
+    @NonNull
     public static TACrypto createCrypto(CertProperties certProperties, Context context) {
         int build = ComponentGenerator.create().getBuild();
         if (build >= Build.VERSION_CODES.M) {

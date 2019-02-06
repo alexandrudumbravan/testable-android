@@ -40,19 +40,19 @@ public class ComponentGenerator {
         return new TAIntent(action, taUri);
     }
 
-    @Nullable
+    @NonNull
     public TAIntent createIntent(@NonNull Activity activity, @NonNull Class<?> activityClass) {
         return new TAIntent(activity, activityClass);
     }
 
-    @Nullable
+    @NonNull
     public TAIntent createIntent(@NonNull Activity activity, @NonNull String action, @NonNull TAUri taUri,
                                  @NonNull Class<?> activityClass) {
         return new TAIntent(action, taUri, activity, activityClass);
 
     }
 
-    @Nullable
+    @NonNull
     public TABundle createExtras() {
         return new TABundle();
     }

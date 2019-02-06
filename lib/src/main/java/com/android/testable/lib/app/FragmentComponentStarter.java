@@ -56,4 +56,9 @@ public class FragmentComponentStarter extends ComponentStarter<Fragment> {
     void requestPermissions(@NonNull Fragment fragment, @NonNull String[] permissions, int requestCode) {
         fragment.requestPermissions(permissions, requestCode);
     }
+
+    @NonNull
+    public static FragmentComponentStarter create(@NonNull Fragment fragment) {
+        return new FragmentComponentStarter(fragment, new ComponentGenerator());
+    }
 }

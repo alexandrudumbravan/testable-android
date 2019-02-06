@@ -63,6 +63,7 @@ public class TABroadcastManager {
     }
 
 
+    @NonNull
     public static TABroadcastManager create(@NonNull Context context) {
         return new TABroadcastManager(context.getApplicationContext(),
                 LocalBroadcastManagerWrapper.create(context),

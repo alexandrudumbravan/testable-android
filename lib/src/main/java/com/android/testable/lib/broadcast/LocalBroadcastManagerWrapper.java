@@ -34,6 +34,7 @@ public class LocalBroadcastManagerWrapper {
         localBroadcastManager.unregisterReceiver(broadcastReceiver);
     }
 
+    @NonNull
     public static LocalBroadcastManagerWrapper create(@NonNull Context context) {
         return new LocalBroadcastManagerWrapper(LocalBroadcastManager.getInstance(context.getApplicationContext()));
     }

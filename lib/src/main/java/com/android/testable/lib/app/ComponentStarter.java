@@ -23,7 +23,7 @@ public abstract class ComponentStarter<T> {
     @NonNull
     WeakReference<T> reference;
     @NonNull
-    ComponentGenerator componentGenerator;
+    private ComponentGenerator componentGenerator;
 
     ComponentStarter(T type, @NonNull ComponentGenerator componentGenerator) {
         this.reference = new WeakReference<>(type);
@@ -71,114 +71,70 @@ public abstract class ComponentStarter<T> {
         return null;
     }
 
-    @Nullable
+    @NonNull
     public TABundle createExtras() {
         return componentGenerator.createExtras();
     }
 
     public void startService(@NonNull final TAIntent taIntent) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.startService(taIntent.intent);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> activity.startService(taIntent.intent));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void startServiceForeground(@NonNull final TAIntent taIntent) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.startForegroundService(taIntent.intent);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> activity.startForegroundService(taIntent.intent));
     }
 
     public void startServiceForegroundCompat(@NonNull final TAIntent taIntent) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                ContextCompat.startForegroundService(activity, taIntent.intent);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> ContextCompat.startForegroundService(activity, taIntent.intent));
     }
 
     public void startActivity(@NonNull final TAIntent taIntent) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.startActivity(taIntent.intent);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> activity.startActivity(taIntent.intent));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void startActivity(@NonNull final TAIntent taIntent, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.startActivity(taIntent.intent, options.bundle);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> activity.startActivity(taIntent.intent, options.bundle));
     }
 
     public void startActivityCompat(@NonNull final TAIntent taIntent, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                ActivityCompat.startActivity(activity, taIntent.intent, options.bundle);
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), activity -> ActivityCompat.startActivity(activity, taIntent.intent, options.bundle));
     }
 
     public void startActivities(@NonNull final TAIntent[] taIntents) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                Intent[] intents = new Intent[taIntents.length];
-                for (int i = 0; i < taIntents.length; i++) {
-                    intents[i] = taIntents[i].intent;
-                }
-                activity.startActivities(intents);
+        NonNullRunnable.Executor.execute(getActivity(), activity -> {
+            Intent[] intents = new Intent[taIntents.length];
+            for (int i = 0; i < taIntents.length; i++) {
+                intents[i] = taIntents[i].intent;
             }
+            activity.startActivities(intents);
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void startActivities(@NonNull final TAIntent[] taIntents, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                Intent[] intents = new Intent[taIntents.length];
-                for (int i = 0; i < taIntents.length; i++) {
-                    intents[i] = taIntents[i].intent;
-                }
-                activity.startActivities(intents, options.bundle);
+        NonNullRunnable.Executor.execute(getActivity(), activity -> {
+            Intent[] intents = new Intent[taIntents.length];
+            for (int i = 0; i < taIntents.length; i++) {
+                intents[i] = taIntents[i].intent;
             }
+            activity.startActivities(intents, options.bundle);
         });
     }
 
     public void startActivitiesCompat(@NonNull final TAIntent[] taIntents, @NonNull final TABundle options) {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                Intent[] intents = new Intent[taIntents.length];
-                for (int i = 0; i < taIntents.length; i++) {
-                    intents[i] = taIntents[i].intent;
-                }
-                ActivityCompat.startActivities(activity, intents, options.bundle);
+        NonNullRunnable.Executor.execute(getActivity(), activity -> {
+            Intent[] intents = new Intent[taIntents.length];
+            for (int i = 0; i < taIntents.length; i++) {
+                intents[i] = taIntents[i].intent;
             }
+            ActivityCompat.startActivities(activity, intents, options.bundle);
         });
     }
 
     public void finish() {
-        NonNullRunnable.Executor.execute(getActivity(), new NonNullRunnable<Activity>() {
-            @Override
-            public void run(@NonNull Activity activity) {
-                activity.finish();
-            }
-        });
+        NonNullRunnable.Executor.execute(getActivity(), Activity::finish);
     }
 
     public abstract void startActivityForResult(@NonNull TAIntent taIntent, int requestCode);
@@ -205,5 +161,7 @@ public abstract class ComponentStarter<T> {
 
 
     public abstract void requestPermissions(@NonNull String[] permissions, int requestCode);
+
+
 
 }

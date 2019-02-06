@@ -66,7 +66,8 @@ public class EncryptableSharedPreferences extends TASharedPreferences {
         return gson.fromJson(taCrypto.decryptFromBase64(getString(key, "")), typeClass);
     }
 
-    public static EncryptableSharedPreferences createDefaultSharedPrefs(Context context, String name, CertProperties certProperties) {
+    @NonNull
+    public static EncryptableSharedPreferences createDefaultSharedPrefs(@NonNull Context context, @NonNull String name, @NonNull CertProperties certProperties) {
         return new EncryptableSharedPreferences(context, name, MODE_PRIVATE, new Gson(), TACrypto.createCrypto(certProperties, context));
     }
 }

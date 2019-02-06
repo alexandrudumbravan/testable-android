@@ -44,7 +44,7 @@ public class ActivityComponentStarter extends ComponentStarter<Activity> {
     }
 
     @NonNull
-    public static ActivityComponentStarter create(Activity activity) {
+    public static ActivityComponentStarter create(@NonNull Activity activity) {
         return new ActivityComponentStarter(activity, new ComponentGenerator());
     }
 }
