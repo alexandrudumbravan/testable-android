@@ -7,7 +7,9 @@ import com.android.testable.lib.presentable.Permissible
 import com.android.testable.lib.presentable.Resultable
 import com.android.testable.lib.presentable.StateSavable
 import com.android.testable.lib.res.TAResources
+import com.testable.android.AppPreferences2
 import com.testable.android.BuildConfig
+import com.testable.android.Navigator
 import com.testable.android.R
 
 
@@ -15,7 +17,9 @@ class MvpPresenter(
     private val mvpView: MvpView,
     private val componentStarter: ActivityComponentStarter,
     private val taResources: TAResources,
-    private val taIntentHelper: TAIntentHelper
+    private val taIntentHelper: TAIntentHelper,
+    private val navigator: Navigator,
+    private val appPreferences2: AppPreferences2
 ) : Intentable, StateSavable, Resultable, Permissible {
 
     companion object {
@@ -35,12 +39,9 @@ class MvpPresenter(
     }
 
     fun handleButtonClick() {
-        val intent = componentStarter.createIntent()
-        intent.type = "image/*"
-        intent.setAction(TAIntent.ACTION_GET_CONTENT)
         componentStarter.startActivityForResult(
             taIntentHelper.createChooser(
-                intent,
+                navigator.createPickPhotoIntent(),
                 taResources.getString(R.string.select_picture)
             ), REQUEST_CODE_PICK_IMAGE
         )

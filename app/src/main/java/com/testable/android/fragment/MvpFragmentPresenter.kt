@@ -6,14 +6,18 @@ import com.android.testable.lib.presentable.Argumentable
 import com.android.testable.lib.presentable.Resultable
 import com.android.testable.lib.presentable.StateSavable
 import com.android.testable.lib.res.TAResources
+import com.testable.android.AppPreferences1
 import com.testable.android.BuildConfig
+import com.testable.android.Navigator
 import com.testable.android.R
 
 class MvpFragmentPresenter(
     private val mvpFragmentView: MvpFragmentView,
     private val fragmentComponentStarter: FragmentComponentStarter,
     private val taResources: TAResources,
-    private val taIntentHelper: TAIntentHelper
+    private val taIntentHelper: TAIntentHelper,
+    private val navigator: Navigator,
+    private val appPreferences1: AppPreferences1
 ) : Argumentable, StateSavable, Resultable {
 
     companion object {
@@ -50,12 +54,9 @@ class MvpFragmentPresenter(
     }
 
     fun handleButtonClick() {
-        val intent = fragmentComponentStarter.createIntent()
-        intent.type = "image/*"
-        intent.setAction(TAIntent.ACTION_GET_CONTENT)
         fragmentComponentStarter.startActivityForResult(
             taIntentHelper.createChooser(
-                intent,
+                navigator.createPickPhotoIntent(),
                 taResources.getString(R.string.select_picture)
             ), REQUEST_CODE_PICK_IMAGE
         )

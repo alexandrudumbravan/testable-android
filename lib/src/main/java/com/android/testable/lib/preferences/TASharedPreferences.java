@@ -106,6 +106,7 @@ public class TASharedPreferences {
      * @param defValue the default value to return in case the preference does not exist
      * @return the preference if it exists or the default value otherwise
      */
+    @Nullable
     public String getString(@NonNull String key, @Nullable String defValue) {
         return sharedPreferences.getString(key, defValue);
     }
@@ -117,6 +118,7 @@ public class TASharedPreferences {
      * @param defValues the default values to return in case the preference does not exist
      * @return the preference if it exists or the default value otherwise
      */
+    @Nullable
     public Set<String> getStringSet(@NonNull String key, @Nullable Set<String> defValues) {
         return sharedPreferences.getStringSet(key, defValues);
     }

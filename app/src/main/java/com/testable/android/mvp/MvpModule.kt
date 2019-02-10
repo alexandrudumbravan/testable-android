@@ -4,6 +4,8 @@ import com.android.testable.lib.app.ActivityComponentStarter
 import com.android.testable.lib.app.TAIntentHelper
 import com.android.testable.lib.res.TAResources
 import com.testable.android.ActivityScope
+import com.testable.android.AppPreferences2
+import com.testable.android.Navigator
 import dagger.Module
 import dagger.Provides
 
@@ -20,10 +22,16 @@ class MvpModule {
 
     @ActivityScope
     @Provides
+    fun providesNavigator(componentStarter: ActivityComponentStarter) = Navigator(componentStarter)
+
+    @ActivityScope
+    @Provides
     fun providesMvpPresenter(
         mvpView: MvpView,
         activityComponentStarter: ActivityComponentStarter,
         taResources: TAResources,
-        taIntentHelper: TAIntentHelper
-    ) = MvpPresenter(mvpView, activityComponentStarter, taResources, taIntentHelper)
+        taIntentHelper: TAIntentHelper,
+        navigator: Navigator,
+        appPreferences2: AppPreferences2
+    ) = MvpPresenter(mvpView, activityComponentStarter, taResources, taIntentHelper, navigator, appPreferences2)
 }
