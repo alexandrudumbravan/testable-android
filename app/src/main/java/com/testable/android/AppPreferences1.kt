@@ -6,8 +6,8 @@ import com.android.testable.lib.preferences.EncryptableSharedPreferences
 class AppPreferences1(private val encryptableSharedPrefs: EncryptableSharedPreferences) {
 
     companion object {
-        private const val KEY_DATA_1 = "data1"
-        private const val KEY_DATA_2 = "data2"
+        internal const val KEY_DATA_1 = "data1"
+        internal const val KEY_DATA_2 = "data2"
     }
 
 
@@ -16,7 +16,10 @@ class AppPreferences1(private val encryptableSharedPrefs: EncryptableSharedPrefe
     }
 
     fun putData2(data2: String) {
-        encryptableSharedPrefs.putEncryptedString(KEY_DATA_2, data2)
+        try {
+            encryptableSharedPrefs.putEncryptedString(KEY_DATA_2, data2)
+        } catch (ignored: InvalidEncryptionException) {
+        }
     }
 
     fun getData1(): String {

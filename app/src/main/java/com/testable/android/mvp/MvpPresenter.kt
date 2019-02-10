@@ -25,9 +25,9 @@ class MvpPresenter(
     companion object {
         const val EXTRA_TEXT = BuildConfig.APPLICATION_ID + ".extras.Mvp.TEXT"
 
-        private const val REQUEST_CODE_PICK_IMAGE = 100
-        private const val REQUEST_CODE_PERMISSION = 200
-        private const val STATE_URI = "state_uri"
+        internal const val REQUEST_CODE_PICK_IMAGE = 100
+        internal const val REQUEST_CODE_PERMISSION = 200
+        internal const val STATE_URI = "state_uri"
     }
 
     private var uri: TAUri? = null

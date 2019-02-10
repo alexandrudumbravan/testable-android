@@ -5,7 +5,7 @@ import com.android.testable.lib.preferences.TASharedPreferences
 class AppPreferences2(private val taSharedPreferences: TASharedPreferences) {
 
     companion object {
-        private const val KEY_OBJECT = "object"
+        internal const val KEY_OBJECT = "object"
     }
 
     fun putData(myObject: MyObject) {
